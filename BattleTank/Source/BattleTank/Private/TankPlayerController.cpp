@@ -7,7 +7,7 @@
 void  ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	auto ControlledTank = GetControlledTank();
+	ATank* ControlledTank = GetControlledTank();
 	if (!ControlledTank)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("TankPlayerController Processing not success"));
@@ -18,15 +18,18 @@ void  ATankPlayerController::BeginPlay()
 	}
 	UE_LOG(LogTemp, Warning, TEXT("TankPlayerController BeginPlay"))
 }
+
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	AimTowordsCrosshair();
 }
+
 ATank* ATankPlayerController::GetControlledTank() const
 {
 	return Cast<ATank>(GetPawn());
 }
+
 void ATankPlayerController::AimTowordsCrosshair()
 {
 	if (!GetControlledTank())
@@ -35,10 +38,11 @@ void ATankPlayerController::AimTowordsCrosshair()
 	FVector Hitlocation;
 	if (GetSightRayLocation(Hitlocation))
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Look Direction: %s"), *Hitlocation.ToString())
+		GetControlledTank()->AimAt(Hitlocation);
 	}
 }
-bool ATankPlayerController::GetSightRayLocation(FVector& OutHitLocation) const
+
+bool ATankPlayerController::GetSightRayLocation(FVector& HitLocation) const
 {
 	//Find Crosshair Position
 	//Line-trace along that lookdirection
@@ -50,7 +54,7 @@ bool ATankPlayerController::GetSightRayLocation(FVector& OutHitLocation) const
 	FVector LookDirection;
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Look Direction: %s"), *LookDirection.ToString())
+		GetLookVectorHitLocation(LookDirection, HitLocation);
 	}
 	return true;
 }
@@ -64,3 +68,19 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& 
 		LookDirection);
 }
 
+bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const
+{
+	FHitResult HitResult;
+	FVector StartLocation = PlayerCameraManager->GetCameraLocation();
+	FVector EndLocation = StartLocation + LookDirection * LineTraceRange;
+	if (GetWorld()->LineTraceSingleByChannel(HitResult,
+		StartLocation,
+		EndLocation,
+		ECollisionChannel::ECC_Visibility))
+	{
+		HitLocation = HitResult.Location;
+		return true;
+	}
+	HitLocation = FVector(0);
+	return false;
+}
