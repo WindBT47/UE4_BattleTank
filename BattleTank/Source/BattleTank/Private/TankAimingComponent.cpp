@@ -28,18 +28,22 @@ void UTankAimingComponent::AimAt(FVector Hitlocation, float LaughSpeed)
 		StartLocation,
 		Hitlocation,
 		LaughSpeed,
-		false,
-		0,
-		0,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	);
 	if (bHaveAimSolution)//Calculate The OutLaughVelocity
 	{
 		FVector AimDirection = OutLaughVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
+		float Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f Aiming solution found at %s"), Time,*Hitlocation.ToString())
+	}
+	else
+	{
+		float Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f No Aiming solution found"), Time)
 	}
 }
-void UTankAimingComponent::SetBarrelRefrence(UStaticMeshComponent* BarrelToSet)
+void UTankAimingComponent::SetBarrelRefrence(UTankBarrel* BarrelToSet)
 {
 	this->Barrel = BarrelToSet;
 }
@@ -50,7 +54,8 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
 	FRotator AimAsRotator = AimDirection.Rotation();
 	FRotator DeltaRotator = AimAsRotator - BarrelRotator;
-	UE_LOG(LogTemp, Warning, TEXT("AimAsRotator %s"), *DeltaRotator.ToString())
+	
 	//TODO Move the Barrel right amount in this frame
+	Barrel->Elevate(5);
 	//TODO Given a max elevation speed & the frame time
 }
