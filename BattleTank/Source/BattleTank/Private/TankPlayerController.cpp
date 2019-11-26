@@ -50,6 +50,7 @@ bool ATankPlayerController::GetSightRayLocation(FVector& HitLocation) const
 	int32 ViewPortSizeX, ViewPortSizeY;
 	GetViewportSize(ViewPortSizeX, ViewPortSizeY);
 	FVector2D ScreenLocation = FVector2D(ViewPortSizeX * CrosshairXlocation, ViewPortSizeY * CrosshairYlocation);
+	//UE_LOG(LogTemp, Warning, TEXT("ScreenLocation: %s"), *ScreenLocation.ToString())
 	
 	FVector LookDirection;
 	if (GetLookDirection(ScreenLocation, LookDirection))

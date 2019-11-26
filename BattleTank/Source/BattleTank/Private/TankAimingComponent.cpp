@@ -40,6 +40,13 @@ void UTankAimingComponent::AimAt(FVector Hitlocation, float LaughSpeed)
 		FVector AimDirection = OutLaughVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 		MoveTurrentTowards(AimDirection);
+		float Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f Aiming solution found at %s"), Time,*Hitlocation.ToString())
+	}
+	else
+	{
+		float Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f No Aiming solution found"), Time)
 	}
 }
 void UTankAimingComponent::SetBarrelRefrence(UTankBarrel* BarrelToSet)

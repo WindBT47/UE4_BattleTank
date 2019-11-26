@@ -23,10 +23,6 @@ public:
 
 	UFUNCTION(BlueprintCallable,Category = Setup)
 	void SetTurrentRefrence(UTankTurrent* TurrentToSet);
-
-	UFUNCTION(BlueprintCallable,Category = Firing)
-	void Fire();
-
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
@@ -40,6 +36,6 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaughSpeed = 4000;
+	float LaughSpeed = 100000;
 
 };
