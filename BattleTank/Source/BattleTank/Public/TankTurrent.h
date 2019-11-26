@@ -18,11 +18,5 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere, Category = Setup)
-		float DegreesPerSeconds = 5; //Sensible Default
-
-	UPROPERTY(EditAnywhere, Category = Setup)
-		float MaxYawDegrees = 40; //TODO set
-
-	UPROPERTY(EditAnywhere, Category = Setup)
-		float MinYawDegrees = -40; //TODO set
+		float MaxDegreesPerSeconds = 25; //Sensible Default
 };

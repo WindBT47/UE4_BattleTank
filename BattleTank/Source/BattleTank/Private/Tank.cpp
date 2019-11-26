@@ -2,6 +2,8 @@
 
 
 #include "Tank.h"
+#include "TankBarrel.h"
+#include "Projectile.h"
 #include "TankAimingComponent.h"
 
 // Sets default values
@@ -12,7 +14,6 @@ ATank::ATank()
 
 	//No need to protect pointer as added at construction
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"),true);
-
 }
 
 // Called when the game starts or when spawned
@@ -32,6 +33,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATank::SetBarrelRefrence(UTankBarrel* BarrelToSet)
 {
 	TankAimingComponent->SetBarrelRefrence(BarrelToSet);
+	Barrel = BarrelToSet;
 }
 void ATank::SetTurrentRefrence(UTankTurrent* TurrentToSet)
 {
@@ -40,4 +42,17 @@ void ATank::SetTurrentRefrence(UTankTurrent* TurrentToSet)
 void ATank::AimAt(FVector Hitlocation)
 {
 	TankAimingComponent->AimAt(Hitlocation,LaughSpeed);
+}
+void ATank::Fire()
+{
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+	if (Barrel&&isReloaded)
+	{
+		//spaw a projectile in the socket of barrel
+		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBluePrint,
+			Barrel->GetSocketLocation(FName("Projectile")),
+			Barrel->GetSocketRotation(FName("Projectile")));
+		Projectile->LaughProjectile(LaughSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+	}
 }
