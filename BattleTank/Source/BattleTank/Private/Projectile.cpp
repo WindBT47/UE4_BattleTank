@@ -29,9 +29,6 @@ void AProjectile::Tick(float DeltaTime)
 
 void AProjectile::LaughProjectile(float LaughSpeed)
 {
-	float Time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("Firing at %f %f"), Time,LaughSpeed)
-
 	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector*LaughSpeed);
 	ProjectileMovement->Activate();
 }
