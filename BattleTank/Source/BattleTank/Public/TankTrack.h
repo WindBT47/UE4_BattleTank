@@ -18,5 +18,5 @@ public:
 	void SetThrottle(float Throttle);
 
 	UPROPERTY(EditAnywhere, Category = Drive)
-	float TrackMaxDrivingFroce=40000;//TODO assume 40 tonne tank and 1g acceleration
+	float TrackMaxDrivingFroce=4000000;//TODO assume 40 tonne tank and 1g acceleration
 };

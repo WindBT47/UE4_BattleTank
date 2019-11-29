@@ -9,15 +9,7 @@ void  ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	ATank* ControlledTank = GetControlledTank();
-	if (!ControlledTank)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("TankPlayerController Processing not success"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("TankPlayerController Processing: %s"), *(ControlledTank->GetName()));
-	}
-	UE_LOG(LogTemp, Warning, TEXT("TankPlayerController BeginPlay"))
+	if (!ControlledTank){return;}
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
