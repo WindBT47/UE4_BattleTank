@@ -21,4 +21,6 @@ private:
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaTime) override;
+	//The Radius That AI Tank can find
+	float AcceptanceRadius = 3000;
 };
