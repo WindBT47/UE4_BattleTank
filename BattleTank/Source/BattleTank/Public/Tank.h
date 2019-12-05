@@ -21,16 +21,17 @@ class BATTLETANK_API ATank : public APawn
 public:
 	void AimAt(FVector Hitlocation);
 
-	UFUNCTION(BlueprintCallable,Category = Setup)
+	UFUNCTION(BlueprintCallable,Category = "Setup")
 	void SetBarrelRefrence(UTankBarrel* BarrelToSet);
 
-	UFUNCTION(BlueprintCallable,Category = Setup)
+	UFUNCTION(BlueprintCallable,Category = "Setup")
 	void SetTurrentRefrence(UTankTurrent* TurrentToSet);
 
-	UFUNCTION(BlueprintCallable,Category = Firing)
+	UFUNCTION(BlueprintCallable,Category = "Firing")
 	void Fire();
 
 protected:
+	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
 	UPROPERTY(BlueprintReadOnly)
 	UTankMovementComponent* TankMovementComponent = nullptr;
@@ -44,13 +45,13 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditAnywhere, Category = "Firing")
 	float LaughSpeed = 4000;
 
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditAnywhere, Category = "Firing")
 	float ReloadTimeInSeconds = 3;
 
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditAnywhere, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBluePrint;
 
 

@@ -10,6 +10,13 @@
 //forward declaration
 class UTankBarrel;
 class UTankTurrent;
+UENUM()
+enum class EFiringState : uint8
+{
+	Reloading,
+	Aiming,
+	Locked
+};
 //Holds barrel's properties and elevate method
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -26,11 +33,16 @@ public:
 	
 	void SetTurrentRefrence(UTankTurrent* TurrentToSet);
 
-	void MoveBarrelTowards(FVector AimDirection);
+protected:
 
-	void MoveTurrentTowards(FVector AimDirection);
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	EFiringState FiringState = EFiringState::Reloading;
 
 private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurrent* Turrent = nullptr;
+
+	void MoveBarrelTowards(FVector AimDirection);
+
+	void MoveTurrentTowards(FVector AimDirection);
 };
