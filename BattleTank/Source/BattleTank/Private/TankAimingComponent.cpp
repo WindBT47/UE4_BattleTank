@@ -14,7 +14,11 @@ UTankAimingComponent::UTankAimingComponent()
 
 	// ...
 }
-
+void UTankAimingComponent::Initialise(UTankBarrel* TankBarrel, UTankTurrent* TankTurrent)
+{
+	Barrel = TankBarrel;
+	Turrent = TankTurrent;
+}
 void UTankAimingComponent::AimAt(FVector Hitlocation, float LaughSpeed)
 {
 	if (!Barrel)
@@ -42,14 +46,7 @@ void UTankAimingComponent::AimAt(FVector Hitlocation, float LaughSpeed)
 		MoveTurrentTowards(AimDirection);
 	}
 }
-void UTankAimingComponent::SetBarrelRefrence(UTankBarrel* BarrelToSet)
-{
-	this->Barrel = BarrelToSet;
-}
-void UTankAimingComponent::SetTurrentRefrence(UTankTurrent* TurrentToSet)
-{
-	this->Turrent = TurrentToSet;
-}
+
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	//TODO Work-out Difference Between the current Barrel & AimDirection

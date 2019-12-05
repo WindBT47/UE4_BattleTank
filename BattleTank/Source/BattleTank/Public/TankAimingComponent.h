@@ -27,19 +27,18 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
+	UFUNCTION(BlueprintCallable, Category = "Input")
+	void Initialise(UTankBarrel* TankBarrel, UTankTurrent* TankTurrent);
+
 	void AimAt(FVector Hitlocation,float LaughSpeed);
 
-	void SetBarrelRefrence(UTankBarrel* BarrelToSet);
-	
-	void SetTurrentRefrence(UTankTurrent* TurrentToSet);
-
+	UTankBarrel* Barrel = nullptr;
 protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::Reloading;
 
 private:
-	UTankBarrel* Barrel = nullptr;
 	UTankTurrent* Turrent = nullptr;
 
 	void MoveBarrelTowards(FVector AimDirection);
