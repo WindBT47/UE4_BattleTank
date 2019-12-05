@@ -15,10 +15,14 @@ ATank::ATank()
 }
 
 // Called when the game starts or when spawned
-
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+}
 // Called to bind functionality to input
 void ATank::AimAt(FVector Hitlocation)
 {
+	if (!TankAimingComponent) { return; }
 	TankAimingComponent->AimAt(Hitlocation,LaughSpeed);
 }
 void ATank::Fire()
