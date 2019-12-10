@@ -30,11 +30,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void Initialise(UTankBarrel* TankBarrel, UTankTurrent* TankTurrent);
 
-	void AimAt(FVector Hitlocation,float LaughSpeed);
+	void AimAt(FVector Hitlocation);
 
 	UTankBarrel* Barrel = nullptr;
 protected:
-
+	UPROPERTY(EditAnywhere, Category = "Firing")
+	float LaughSpeed = 4000;
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::Reloading;
 

@@ -19,7 +19,7 @@ void UTankAimingComponent::Initialise(UTankBarrel* TankBarrel, UTankTurrent* Tan
 	Barrel = TankBarrel;
 	Turrent = TankTurrent;
 }
-void UTankAimingComponent::AimAt(FVector Hitlocation, float LaughSpeed)
+void UTankAimingComponent::AimAt(FVector Hitlocation)
 {
 	if (!ensure(Barrel))
 	{
@@ -49,6 +49,7 @@ void UTankAimingComponent::AimAt(FVector Hitlocation, float LaughSpeed)
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
+	if (!ensure(Barrel)) { return; }
 	//TODO Work-out Difference Between the current Barrel & AimDirection
 	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
 	FRotator AimAsRotator = AimDirection.Rotation();
@@ -61,6 +62,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UTankAimingComponent::MoveTurrentTowards(FVector AimDirection)
 {
+	if (!ensure(Turrent)) { return; }
 	FRotator TurrentRotator = Turrent->GetForwardVector().Rotation();
 	FRotator AimAsRotator = AimDirection.Rotation();
 	FRotator DeltaRotator = AimAsRotator - TurrentRotator;

@@ -4,7 +4,6 @@
 #include "Tank.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
-#include "TankAimingComponent.h"
 
 // Sets default values
 ATank::ATank()
@@ -17,13 +16,9 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
+	Barrel = FindComponentByClass<UTankBarrel>();
 }
-// Called to bind functionality to input
-void ATank::AimAt(FVector Hitlocation)
-{
-	if (!ensure(TankAimingComponent)) { return; }
-	TankAimingComponent->AimAt(Hitlocation,LaughSpeed);
-}
+
 void ATank::Fire()
 {
 	if (!ensure(Barrel)) { return; }
