@@ -10,7 +10,10 @@ void  ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	auto TankAimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	FoundAimingComponent(TankAimingComponent);
+	if (ensure(TankAimingComponent))
+	{
+		FoundAimingComponent(TankAimingComponent);
+	}
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -26,7 +29,7 @@ ATank* ATankPlayerController::GetControlledTank() const
 
 void ATankPlayerController::AimTowordsCrosshair()
 {
-	if (!GetControlledTank())
+	if (!ensure(GetControlledTank()))
 		return;
 
 	FVector Hitlocation;

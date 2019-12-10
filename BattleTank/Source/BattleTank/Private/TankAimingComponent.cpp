@@ -21,7 +21,7 @@ void UTankAimingComponent::Initialise(UTankBarrel* TankBarrel, UTankTurrent* Tan
 }
 void UTankAimingComponent::AimAt(FVector Hitlocation, float LaughSpeed)
 {
-	if (!Barrel)
+	if (!ensure(Barrel))
 	{
 		return;
 	}
