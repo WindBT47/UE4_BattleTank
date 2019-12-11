@@ -10,6 +10,7 @@
 //forward declaration
 class UTankBarrel;
 class UTankTurrent;
+class AProjectile;
 UENUM()
 enum class EFiringState : uint8
 {
@@ -30,19 +31,29 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void Initialise(UTankBarrel* TankBarrel, UTankTurrent* TankTurrent);
 
-	void AimAt(FVector Hitlocation);
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	void Fire();
 
-	UTankBarrel* Barrel = nullptr;
+	void AimAt(FVector Hitlocation);
 protected:
-	UPROPERTY(EditAnywhere, Category = "Firing")
-	float LaughSpeed = 4000;
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::Reloading;
 
 private:
 	UTankTurrent* Turrent = nullptr;
+	UTankBarrel* Barrel = nullptr;
+
+	double LastFireTime = 0;
+
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	TSubclassOf<AProjectile> ProjectileBluePrint;
+
+	UPROPERTY(EditAnywhere, Category = "Firing")
+	float LaughSpeed = 4000;
+
+	UPROPERTY(EditAnywhere, Category = "Firing")
+	float ReloadTimeInSeconds = 3;
 
 	void MoveBarrelTowards(FVector AimDirection);
 
-	void MoveTurrentTowards(FVector AimDirection);
 };

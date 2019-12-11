@@ -4,6 +4,7 @@
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
 #include "TankTurrent.h"
+#include "Projectile.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -43,28 +44,34 @@ void UTankAimingComponent::AimAt(FVector Hitlocation)
 	{
 		FVector AimDirection = OutLaughVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
-		MoveTurrentTowards(AimDirection);
 	}
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	if (!ensure(Barrel)) { return; }
+	if (!ensure(Barrel&&Turrent)) { return; }
 	//TODO Work-out Difference Between the current Barrel & AimDirection
 	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
-	FRotator AimAsRotator = AimDirection.Rotation();
-	FRotator DeltaRotator = AimAsRotator - BarrelRotator;
-	
-	//TODO Move the Barrel right amount in this frame
-	Barrel->Elevate(DeltaRotator.Pitch);
-	//TODO Given a max elevation speed & the frame time
-}
-
-void UTankAimingComponent::MoveTurrentTowards(FVector AimDirection)
-{
-	if (!ensure(Turrent)) { return; }
 	FRotator TurrentRotator = Turrent->GetForwardVector().Rotation();
 	FRotator AimAsRotator = AimDirection.Rotation();
-	FRotator DeltaRotator = AimAsRotator - TurrentRotator;
-	Turrent->Rotate(DeltaRotator.Yaw);
+	FRotator BarrelDeltaRotator = AimAsRotator - BarrelRotator;
+	FRotator TurrentDeltaRotator = AimAsRotator - TurrentRotator;
+	//TODO Move the Barrel right amount in this frame
+	Barrel->Elevate(BarrelDeltaRotator.Pitch);
+	Turrent->Rotate(TurrentDeltaRotator.Yaw);
+}
+
+void UTankAimingComponent::Fire()
+{
+	if (!ensure(Barrel && ProjectileBluePrint)) { return; }
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+	if (isReloaded)
+	{
+		//spaw a projectile in the socket of barrel
+		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBluePrint,
+			Barrel->GetSocketLocation(FName("Projectile")),
+			Barrel->GetSocketRotation(FName("Projectile")));
+		Projectile->LaughProjectile(LaughSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+	}
 }
