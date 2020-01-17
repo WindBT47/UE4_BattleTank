@@ -45,6 +45,8 @@ private:
 
 	double LastFireTime = 0;
 
+	FVector AimDirection;
+
 	UPROPERTY(EditAnywhere, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBluePrint;
 
@@ -55,6 +57,8 @@ private:
 	float ReloadTimeInSeconds = 3;
 
 	void MoveBarrelTowards(FVector AimDirection);
+
+	bool IsBarrelMoving();
 
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

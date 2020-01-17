@@ -19,6 +19,13 @@ void UTankAimingComponent::BeginPlay()
 {
 	LastFireTime = FPlatformTime::Seconds();
 }
+
+void UTankAimingComponent::Initialise(UTankBarrel* TankBarrel, UTankTurrent* TankTurrent)
+{
+	Barrel = TankBarrel;
+	Turrent = TankTurrent;
+}
+
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
@@ -26,15 +33,16 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 		FiringState = EFiringState::Reloading;
 	}
 	else
-	{
-		FiringState = EFiringState::Aiming;
-	}
+		if (IsBarrelMoving())
+		{
+			FiringState = EFiringState::Aiming;
+		}
+		else
+		{
+			FiringState = EFiringState::Locked;
+	    }
 }
-void UTankAimingComponent::Initialise(UTankBarrel* TankBarrel, UTankTurrent* TankTurrent)
-{
-	Barrel = TankBarrel;
-	Turrent = TankTurrent;
-}
+
 void UTankAimingComponent::AimAt(FVector Hitlocation)
 {
 	if (!ensure(Barrel))
@@ -57,7 +65,7 @@ void UTankAimingComponent::AimAt(FVector Hitlocation)
 	);
 	if (bHaveAimSolution)//Calculate The OutLaughVelocity
 	{
-		FVector AimDirection = OutLaughVelocity.GetSafeNormal();
+		AimDirection = OutLaughVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 	}
 }
@@ -89,4 +97,11 @@ void UTankAimingComponent::Fire()
 		Projectile->LaughProjectile(LaughSpeed);
 		LastFireTime = FPlatformTime::Seconds();
 	}
+}
+
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if (!ensure(Barrel))
+		return false;
+	return !Barrel->GetForwardVector().Equals(AimDirection, 0.01);
 }
