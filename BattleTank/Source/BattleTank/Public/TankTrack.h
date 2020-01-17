@@ -19,4 +19,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Drive")
 	float TrackMaxDrivingFroce=30000000;//TODO assume 40 tonne tank and 1g acceleration
+
+private:
+	UTankTrack();
+
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 };
