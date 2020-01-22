@@ -26,6 +26,11 @@ void UTankAimingComponent::Initialise(UTankBarrel* TankBarrel, UTankTurrent* Tan
 	Turrent = TankTurrent;
 }
 
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
+
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
@@ -86,7 +91,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	}
 	else
 	{
-		Turrent->Rotate(-TurrentDeltaRotator.Yaw);
+		Turrent->Rotate(-(TurrentDeltaRotator.Yaw));
 	}
 	Barrel->Elevate(BarrelDeltaRotator.Pitch);
 	
