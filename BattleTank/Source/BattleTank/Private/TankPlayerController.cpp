@@ -28,7 +28,8 @@ void ATankPlayerController::AimTowordsCrosshair()
 		return;
 	}
 	FVector Hitlocation;
-	if (GetSightRayLocation(Hitlocation))
+	bool bGotHitlocation = GetSightRayLocation(Hitlocation);
+	if (bGotHitlocation)
 	{
 		TankAimingComponent->AimAt(Hitlocation);
 	}
@@ -45,9 +46,9 @@ bool ATankPlayerController::GetSightRayLocation(FVector& HitLocation) const
 	FVector LookDirection;
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
-		GetLookVectorHitLocation(LookDirection, HitLocation);
+		return GetLookVectorHitLocation(LookDirection, HitLocation);
 	}
-	return true;
+	return false;
 }
 
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const

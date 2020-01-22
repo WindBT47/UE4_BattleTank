@@ -72,7 +72,7 @@ void UTankAimingComponent::AimAt(FVector Hitlocation)
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	if (!ensure(Barrel&&Turrent)) { return; }
+	if (!ensure(Barrel||Turrent)) { return; }
 	//TODO Work-out Difference Between the current Barrel & AimDirection
 	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
 	FRotator TurrentRotator = Turrent->GetForwardVector().Rotation();
@@ -80,8 +80,16 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	FRotator BarrelDeltaRotator = AimAsRotator - BarrelRotator;
 	FRotator TurrentDeltaRotator = AimAsRotator - TurrentRotator;
 	//TODO Move the Barrel right amount in this frame
+	if (TurrentDeltaRotator.Yaw < 180)
+	{
+		Turrent->Rotate(TurrentDeltaRotator.Yaw);
+	}
+	else
+	{
+		Turrent->Rotate(-TurrentDeltaRotator.Yaw);
+	}
 	Barrel->Elevate(BarrelDeltaRotator.Pitch);
-	Turrent->Rotate(TurrentDeltaRotator.Yaw);
+	
 }
 
 void UTankAimingComponent::Fire()
