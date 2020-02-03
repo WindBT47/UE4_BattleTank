@@ -96,7 +96,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	FRotator BarrelDeltaRotator = AimAsRotator - BarrelRotator;
 	FRotator TurrentDeltaRotator = AimAsRotator - TurrentRotator;
 	//TODO Move the Barrel right amount in this frame
-	if (TurrentDeltaRotator.Yaw < 180)
+	if (FMath::Abs(TurrentDeltaRotator.Yaw)< 180)
 	{
 		Turrent->Rotate(TurrentDeltaRotator.Yaw);
 	}
