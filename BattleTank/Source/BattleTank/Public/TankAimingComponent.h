@@ -16,7 +16,8 @@ enum class EFiringState : uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	OutOfAmmo
 };
 //Holds barrel's properties and elevate method
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -37,13 +38,17 @@ public:
 	void AimAt(FVector Hitlocation);
 
 	EFiringState GetFiringState() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	int GetRoundsLeft() const;
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::Reloading;
-
 private:
 	UTankTurrent* Turrent = nullptr;
 	UTankBarrel* Barrel = nullptr;
+
+	int RoundsLeft = 3;
 
 	double LastFireTime = 0;
 
