@@ -40,15 +40,13 @@ public:
 	EFiringState GetFiringState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
-	int GetRoundsLeft() const;
+	int32 GetRoundsLeft() const;
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::Reloading;
 private:
 	UTankTurrent* Turrent = nullptr;
 	UTankBarrel* Barrel = nullptr;
-
-	int RoundsLeft = 3;
 
 	double LastFireTime = 0;
 
@@ -62,6 +60,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Firing")
 	float ReloadTimeInSeconds = 3;
+
+	UPROPERTY(EditAnywhere, Category = "Firing")
+	int32 RoundsLeft = 20;
 
 	void MoveBarrelTowards(FVector AimDirection);
 
