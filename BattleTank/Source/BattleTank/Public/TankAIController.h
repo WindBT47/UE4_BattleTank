@@ -5,6 +5,7 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "GameFramework/Pawn.h"
 #include "TankAIController.generated.h"
 
 /**
@@ -23,5 +24,10 @@ private:
 
 	virtual void BeginPlay() override;
 
+	virtual void SetPawn(APawn* InPawn) override;
+
 	virtual void Tick(float DeltaTime) override;
+
+	UFUNCTION()
+	void OnPossedTankDeath();
 };

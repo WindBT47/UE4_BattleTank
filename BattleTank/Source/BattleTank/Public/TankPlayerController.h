@@ -25,7 +25,12 @@ private:
 
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void SetPawn(APawn* InPawn) override;
+
 	void AimTowordsCrosshair();
+
+	UFUNCTION()
+	void OnPossedTankDeath();
 
 	bool GetSightRayLocation(FVector& OutHitLocation) const;
 	UPROPERTY(EditAnywhere)
