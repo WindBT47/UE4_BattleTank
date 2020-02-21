@@ -9,6 +9,7 @@
 void  ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	if (!GetPawn()) { return; }
 	auto TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (ensure(TankAimingComponent))
 	{
@@ -25,10 +26,13 @@ void ATankPlayerController::Tick(float DeltaTime)
 void ATankPlayerController::SetPawn(APawn* InPawn)
 {
 	Super::SetPawn(InPawn);
-	auto PossessedTank = Cast<ATank>(InPawn);
-	if (!ensure(PossessedTank)) { return; }
-	// Subscribe our local method to the tank's death event
-	PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPossedTankDeath);
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+		// Subscribe our local method to the tank's death event
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPossedTankDeath);
+	}
 }
 
 void ATankPlayerController::OnPossedTankDeath()
@@ -38,8 +42,8 @@ void ATankPlayerController::OnPossedTankDeath()
 
 void ATankPlayerController::AimTowordsCrosshair()
 {
-
-	auto TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!GetPawn()) { return; }
+	UTankAimingComponent* TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(TankAimingComponent))
 	{
 		return;

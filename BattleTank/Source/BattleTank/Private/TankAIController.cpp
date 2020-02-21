@@ -25,16 +25,14 @@ void ATankAIController::Tick(float DeltaTime)
 	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 	auto ControlledTank = GetPawn();
 	auto AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
-	if (ensure(PlayerTank && ControlledTank && AimingComponent))
+	if (!ensure(PlayerTank && ControlledTank && AimingComponent)) { return; }
+	//TODO Move towards the player
+	MoveToActor(PlayerTank, AcceptanceRadius);
+	//TODO Aim towards the player
+	AimingComponent->AimAt(PlayerTank->GetActorLocation());
+	if (AimingComponent->GetFiringState() == EFiringState::Locked)
 	{
-		//TODO Move towards the player
-		MoveToActor(PlayerTank, AcceptanceRadius);
-		//TODO Aim towards the player
-		AimingComponent->AimAt(PlayerTank->GetActorLocation());
-		if (AimingComponent->GetFiringState() == EFiringState::Locked)
-		{
-			AimingComponent->Fire();
-		}
+		AimingComponent->Fire();
 	}
 }
 
