@@ -6,6 +6,7 @@
 #include "Components/SceneComponent.h"
 #include "SpawnPoint.generated.h"
 
+class ASprungWheel;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API USpawnPoint : public USceneComponent
@@ -27,5 +28,5 @@ protected:
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Setup")
-	TSubclassOf<AActor> SpawnClass;
+	TSubclassOf<ASprungWheel> SpawnClass;
 };

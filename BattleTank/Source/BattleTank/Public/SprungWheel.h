@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "PhysicsEngine/PhysicsConstraintComponent.h"
+#include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
 #include "SprungWheel.generated.h"
 
@@ -23,12 +24,18 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 private:
-	UPROPERTY(VisibleAnywhere, Category = "Components")
-	UStaticMeshComponent* Mass = nullptr;
+
+	void SetupConstraint();
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
-	UStaticMeshComponent* Wheel = nullptr;
+	USphereComponent* Wheel = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
-	UPhysicsConstraintComponent* Sprung = nullptr;
+	USphereComponent* Axle = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UPhysicsConstraintComponent* MassWheelConstraint = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UPhysicsConstraintComponent* AxleWheelConstraint = nullptr;
 };
