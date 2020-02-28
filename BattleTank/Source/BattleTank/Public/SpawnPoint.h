@@ -20,6 +20,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	AActor* GetSpawnActor() const;
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -29,4 +30,7 @@ protected:
 private:
 	UPROPERTY(EditAnywhere, Category = "Setup")
 	TSubclassOf<ASprungWheel> SpawnClass;
+
+	UPROPERTY()
+	AActor* SpawnedActor;
 };
