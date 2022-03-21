@@ -8,5 +8,5 @@ this is my  UE Game for practicing. It's an open world and head to head tank fig
 + Heavy focus on control systems
 + Learn Terrains,UI,Terrain Sculpting & more
 + Dive fight in
-### That's test ###
-+ github
+### What's it look like ###
++ ![avatar](https://github.com/WindBT47/MarkdownPhotos/blob/master/BattleTank_resume.jpg)
